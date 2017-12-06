@@ -7,5 +7,5 @@
 </div>
 <div class="visualizacion">
   <div class="content"></div>
-  <a href="" id="btn-close-visualizacion">X</a>
+  <a id="btn-close-visualizacion"><span><img src="<?= plugins_url('/img/close.png', __FILE__) ?>"></span></a>
 </div>

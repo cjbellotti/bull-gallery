@@ -3,6 +3,8 @@ function message() {
 }
 
 var galleryData = [];
+var mosaicSize = 0;
+var columns = 0;
 
 function toggle(e) {
   $('#btn-category').prop('checked', false);
@@ -20,7 +22,6 @@ function visualizar(e) {
   var index = $($(e.target.parentElement)[0].parentElement).attr('index');
   if (index) {
     var content = galleryData[index].content;
-    //$('.visualizacion > img').attr('src', imagen);
     $('.visualizacion > .content').html(content);
     $('.visualizacion').addClass('visualizacion-visible');
   }
@@ -92,7 +93,24 @@ function clearAll() {
   });
 }
 
+function loadSizes() {
+  columns = $(window).width() <= 768 ? bg_mobile_columns : bg_desktop_columns;
+  mosaicSize = Math.round(($('.bull-gallery').width() - columns) / columns);
+}
+
+function hiddenVisualizacion() {
+  $('.content').html('');
+  $('.visualizacion').removeClass('visualizacion-visible');
+}
+
 $(function() {
+  loadSizes();
+  $(window).resize(()=> {
+    loadSizes();
+    $('.mosaic').css('width', mosaicSize +'px');
+    $('.mosaic').css('height', mosaicSize +'px');
+  });
+
   $('.navbar').append($(`
       <li active>TODOS<li>
     `));
@@ -107,7 +125,7 @@ $(function() {
   galleryData = getItems('*');
   galleryData.forEach(item => {
     var el = $(`
-      <div class="mosaic" toggle="1" index="${index}">
+      <div class="mosaic" toggle="1" index="${index}" style="width:${mosaicSize}px; height:${mosaicSize}px" >
         <div>
           <div class="label">
               <span>${item.title}</span>
@@ -129,6 +147,11 @@ $(function() {
   $('.mosaic').click(visualizar);
   $('#btn-close-visualizacion').click((e) => {
     e.preventDefault();
-    $('.visualizacion').removeClass('visualizacion-visible');
+    hiddenVisualizacion();
   })
+  $(window).keyup((e)=> {
+    if (e.keyCode == 27) {
+      hiddenVisualizacion();
+    }
+  });
 });

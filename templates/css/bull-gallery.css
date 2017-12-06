@@ -11,9 +11,8 @@
 }
 .bull-gallery .mosaic {
   display : inline-block;
-  width : 100%;
-  max-width: 350px;
-  height : 350px;
+  /*width: 350px;
+  height : 350px;*/
   position : relative;
 }
 
@@ -129,7 +128,20 @@
 .bull-gallery .visualizacion .content {
   max-width: 90%;
   max-height: 80vh;
+  /* overflow: auto; */
+  box-sizing: border-box;
 }
+
+.bull-gallery .visualizacion .content::-webkit-scrollbar {
+  width : 7px;
+  background-color: rgba(0,0,0,0);
+}
+
+.bull-gallery .visualizacion .content::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #979994;
+}
+
 .bull-gallery .visualizacion-visible {
   visibility: visible;
   background-color: rgba(0,0,0,0.7);
@@ -153,14 +165,20 @@
 }
 
 #btn-close-visualizacion {
-  width : 25px;
-  height : 25px;
-  line-height: 25px;
-  background: white;
-  color : black;
-  border-radius: 50%;
   margin : 25px auto;
+  text-decoration: none;
+  border: 0;
+  cursor : pointer;
+  box-shadow: none;
+  -webkit-box-shadow: none;
 }
+
+#btn-close-visualizacion * {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+
 @media (max-width: 768px) {
 
   .bull-gallery #btn-category + label {
