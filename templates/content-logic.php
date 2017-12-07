@@ -7,8 +7,8 @@
   }
 ?>
 <script>
-    var bg_mobile_columns=<?=$args["mobile-columns"]?>;
-    var bg_desktop_columns=<?=$args["desktop-columns"]?>;
+    bg_mobile_columns=<?=$args["mobile-columns"]?>;
+    bg_desktop_columns=<?=$args["desktop-columns"]?>;
     data = [
           <?php
               $posts = get_posts(array(
@@ -31,8 +31,9 @@
               <?php endif ?>
           <?php endforeach ?>
     ];
+
+    $(bg_initialize);
+    
  </script>
 
-<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script-->
-<!--script src="<?= plugins_url('/js/bull-gallery.js', __FILE__) ?>"></script-->
 <link rel="stylesheet" href="<?= plugins_url('/css/bull-gallery.css', __FILE__) ?>">
