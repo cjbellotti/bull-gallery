@@ -48,7 +48,9 @@ function visualizar(e) {
 
 function loadContent() {
   var content = galleryData[currentIndex].content;
-  content = content.substring(3, content.length - 4);
+  if (content.substring(0, 3) == '<p>') {
+    content = content.substring(3, content.length - 4);
+  }
   $('.visualizacion > .content').html(content);
   $('.visualizacion').addClass('visualizacion-visible');
 }
