@@ -78,16 +78,15 @@ function load(group) {
   var toggle = $('.mosaic').attr('toggle');
   var toggled = toggle == '2' ? '1' : '2';
   galleryData = getItems(group);
-  var index = 0;
   toggle = toggle == 1 ? 2 : 1;
-  els.forEach(el => {
+  els.forEach((el, index) => {
     el = $(el);
     if (index < galleryData.length) {
       var item = galleryData[index];
       el.find(`> div:nth-of-type(${toggled}) > img`).attr('src', item.image);
       el.find(`> div:nth-of-type(${toggled}) > .label > span`).html(item.title);
+      el.attr('index', index);
       el.css('display', 'inline-block');
-      index++;
     } else {
       el.find(`> div:nth-of-type(${toggle}) > img`).attr('src', '');
       el.find(`> div:nth-of-type(${toggle}) > .label > span`).html('');
@@ -132,6 +131,38 @@ function hiddenVisualizacion() {
   $('.visualizacion').removeClass('visualizacion-visible');
 }
 
+function normalizeThumbnail(item) {
+  if (item.type == 'image') {
+    if (item.image == null) {
+      var result = /src="(.*.[jpg|png|jpeg]{1})"/g.exec(item.content);
+      if (result) {
+        return Promise.resolve(result[1]);
+      } else {
+        return Promise.resolve(item.image);
+      }
+    } else {
+      return Promise.resolve(item.image);
+    }
+  } else
+  if (item.type == 'video') {
+    if (item.image == null) {
+      var result = /https:\/\/player.vimeo.com\/video\/(\d+)?/g.exec(item.content);
+      if (result) {
+        console.log('ENTRA!!!!');
+        return fetch(`http://vimeo.com/api/v2/video/${result[1]}.json`)
+                  .then(response => response.json())
+                  .then(response => response[0].thumbnail_large);
+      } else {
+        return Promise.resolve(item.image);
+      }
+    } else {
+      return Promise.resolve(item.image);
+    }
+  } else {
+    return Promise.resolve(item.image);
+  }
+}
+
 function bg_initialize() {
   loadSizes();
   $(window).resize(()=> {
@@ -150,30 +181,36 @@ function bg_initialize() {
       `));
   });
 
-  var index = 0;
+  var getImageRegExp = /src="(.*.[jpg|png|jpeg]{1})"/g;
+  //var index = 0;
   galleryData = getItems('*');
-  galleryData.forEach(item => {
-    var el = $(`
-      <div class="mosaic" toggle="1" index="${index}" style="width:${mosaicSize}px; height:${mosaicSize}px" >
-        <div>
-          <div class="label">
-              <span>${item.title}</span>
+  galleryData.forEach((item, index) => {
+    normalizeThumbnail(item)
+      .then((image) => {
+        item.image = image;
+        var el = $(`
+          <div class="mosaic" toggle="1" index="${index}" style="width:${mosaicSize}px; height:${mosaicSize}px" >
+            <div>
+              <div class="label">
+                  <span>${item.title}</span>
+              </div>
+              <img src="${item.image}" alt="">
+            </div>
+            <div>
+              <div class="label">
+                  <span></span>
+              </div>
+              <img src="" alt="">
+            </div>
           </div>
-          <img src="${item.image}" alt="">
-        </div>
-        <div>
-          <div class="label">
-              <span></span>
-          </div>
-          <img src="" alt="">
-        </div>
-      </div>
-      `);
-    index++;
-    $('.gallery').append(el);
+          `);
+        //index++;
+        el.click(visualizar);
+        $('.gallery').append(el);
+      });
   });
   $('.navbar > li').click(toggle);
-  $('.mosaic').click(visualizar);
+  //$('.mosaic').click(visualizar);
   $('.label').click(visualizar);
   $('#btn-close-visualizacion').click((e) => {
     e.preventDefault();

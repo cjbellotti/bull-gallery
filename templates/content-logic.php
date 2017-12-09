@@ -33,7 +33,7 @@
     ];
 
     $(bg_initialize);
-    
+
  </script>
 
 <link rel="stylesheet" href="<?= plugins_url('/css/bull-gallery.css', __FILE__) ?>">
