@@ -2,10 +2,13 @@ function message() {
   console.log(data);
 }
 
-var galleryData = [];
-var mosaicSize = 0;
 var bg_mobile_columns = 2;
 var bg_desktop_columns = 2;
+var filterTextColor = 'black';
+var filterSelectedColor = 'rgb(30, 166, 133)';
+
+var galleryData = [];
+var mosaicSize = 0;
 var columns = 0;
 var currentIndex = 0;
 
@@ -40,7 +43,7 @@ function rightNavigate(e) {
 }
 
 function visualizar(e) {
-  currentIndex = $($(e.target.parentElement)[0].parentElement).attr('index');
+  currentIndex = $(e.target).attr('index');
   if (currentIndex) {
     loadContent();
   }
@@ -49,7 +52,7 @@ function visualizar(e) {
 function loadContent() {
   var content = galleryData[currentIndex].content;
   if (content.substring(0, 3) == '<p>') {
-    content = content.substring(3, content.length - 4);
+    content = content.substring(3, content.length - 5);
   }
   $('.visualizacion > .content').html(content);
   $('.visualizacion').addClass('visualizacion-visible');
@@ -87,7 +90,7 @@ function load(group) {
       var item = galleryData[index];
       el.find(`> div:nth-of-type(${toggled}) > img`).attr('src', item.image);
       el.find(`> div:nth-of-type(${toggled}) > .label > span`).html(item.title);
-      el.attr('index', index);
+      el.find('> .mosaic-clickable').attr('index', index);
       el.css('display', 'inline-block');
     } else {
       el.find(`> div:nth-of-type(${toggle}) > img`).attr('src', '');
@@ -102,14 +105,13 @@ function loadAll() {
   var els = $('.mosaic').toArray();
   var toggle = $('.mosaic').attr('toggle');
   toggle = (toggle == '1') ? '2' : '1';
-  var index = 0;
   galleryData = getItems('*');
-  galleryData.forEach(item => {
+  galleryData.forEach((item, index) => {
     var el = $(els[index]);
     el.find(`> div:nth-of-type(${toggle}) > img`).attr('src', item.image);
     el.find(`> div:nth-of-type(${toggle}) > .label > span`).html(item.title);
+    el.find('> .mosaic-clickable').attr('index', index);
     el.css('display','inline-block');
-    index++;
   })
   $('.mosaic').attr('toggle', toggle);
 }
@@ -184,14 +186,13 @@ function bg_initialize() {
   });
 
   var getImageRegExp = /src="(.*.[jpg|png|jpeg]{1})"/g;
-  //var index = 0;
   galleryData = getItems('*');
   galleryData.forEach((item, index) => {
     normalizeThumbnail(item)
       .then((image) => {
         item.image = image;
         var el = $(`
-          <div class="mosaic" toggle="1" index="${index}" style="width:${mosaicSize}px; height:${mosaicSize}px" >
+          <div class="mosaic" toggle="1" style="width:${mosaicSize}px; height:${mosaicSize}px" >
             <div>
               <div class="label">
                   <span>${item.title}</span>
@@ -204,15 +205,15 @@ function bg_initialize() {
               </div>
               <img src="" alt="">
             </div>
+            <div class="mosaic-clickable" index="${index}">
+            </div>
           </div>
           `);
-        //index++;
         el.click(visualizar);
         $('.gallery').append(el);
       });
   });
   $('.navbar > li').click(toggle);
-  //$('.mosaic').click(visualizar);
   $('.label').click(visualizar);
   $('#btn-close-visualizacion').click((e) => {
     e.preventDefault();
@@ -230,4 +231,7 @@ function bg_initialize() {
       hiddenVisualizacion();
     }
   });
+
 }
+
+$(bg_initialize);

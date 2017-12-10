@@ -16,11 +16,32 @@
 
   function wpbg_load_script() {
     wp_enqueue_script( 'bg_main_script', plugins_url('/templates/js/bull-gallery.js', __FILE__), array( 'jquery' ));
+    include(dirname(__FILE__) . '/templates/content-data.php');
   }
 
   add_action('wp_enqueue_scripts', 'wpbg_load_script');
 
   function wpbg_bull_gallery_render($args) {
+
+    if (empty($args)) {
+      $args = array();
+    }
+
+    if (!array_key_exists("mobile-columns", $args)) {
+      $args['mobile-columns'] = "2";
+    }
+
+    if (!array_key_exists("desktop-columns", $args)) {
+      $args['desktop-columns'] = "4";
+    }
+
+    if (!array_key_exists("filter-text-color", $args)) {
+      $args['filter-text-color'] = "black";
+    }
+
+    if (!array_key_exists("filter-selected-color", $args)) {
+      $args['filter-selected-color'] = "rgb(30, 166, 133)";
+    }
     ob_start();
     include(dirname(__FILE__) . '/templates/content-main.php');
     return ob_get_clean();
