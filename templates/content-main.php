@@ -5,6 +5,12 @@
   .bull-gallery .navbar > li[active=""] {
     border-bottom: 3px solid <?=$args["filter-selected-color"]?>;
   }
+
+  @media (max-width: 768px) {
+    .bull-gallery .navbar > li {
+      color : white;
+    }
+  }
 </style>
 <script>
   bg_mobile_columns=<?=$args["mobile-columns"]?>;

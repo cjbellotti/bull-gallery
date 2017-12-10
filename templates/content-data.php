@@ -11,13 +11,6 @@
   ));
 
   $data = array();
-  array_push($data, array(
-    'title' => 'Prueba',
-    'image' => 'http://lorempixel.com/400/200/sports/1/',
-    'categories' => array('deportes'),
-    'type' => 'image',
-    'content' => '<img src="http://lorempixel.com/400/200/sports/1/">'
-  ));
   foreach($posts as $post) {
     if (get_post_format($post->ID) == 'image' || get_post_format($post->ID) == 'video') {
       $item = array(

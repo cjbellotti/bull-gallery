@@ -3,7 +3,7 @@
   /*
     Plugin Name: Bull Gallery
     Description: Cool Gallery
-    Version: 0.0.1
+    Version: 0.8.0
     Author: Carlos Bellotti
   */
 
