@@ -9,6 +9,7 @@ var filterSelectedColor = 'rgb(30, 166, 133)';
 
 var galleryData = [];
 var mosaicSize = 0;
+var mosaicHSize = 0;
 var columns = 0;
 var currentIndex = 0;
 
@@ -54,7 +55,7 @@ function loadContent() {
   if (content.substring(0, 3) == '<p>') {
     content = content.substring(3, content.length - 5);
   }
-  $('.visualizacion > .content').html(content);
+  $('.visualizacion > .bg_content').html(content);
   $('.visualizacion').addClass('visualizacion-visible');
 }
 
@@ -127,11 +128,14 @@ function clearAll() {
 
 function loadSizes() {
   columns = $(window).width() <= 768 ? bg_mobile_columns : bg_desktop_columns;
-  mosaicSize = Math.round(($('.bull-gallery').width() - columns) / columns);
+  // mosaicSize = Math.round(($('.bull-gallery').width() - columns) / columns);
+  mosaicSize = 100 / columns;
+  mosaicHSize = $('.bull-gallery').width() * (mosaicSize * 0.01);
+
 }
 
 function hiddenVisualizacion() {
-  $('.content').html('');
+  $('.bg_content').html('');
   $('.visualizacion').removeClass('visualizacion-visible');
 }
 
@@ -171,8 +175,8 @@ function bg_initialize() {
   loadSizes();
   $(window).resize(()=> {
     loadSizes();
-    $('.mosaic').css('width', mosaicSize +'px');
-    $('.mosaic').css('height', mosaicSize +'px');
+    $('.mosaic').css('width', mosaicSize +'%');
+    $('.mosaic').css('height', mosaicHSize +'px');
   });
 
   $('.navbar').append($(`
@@ -192,7 +196,7 @@ function bg_initialize() {
       .then((image) => {
         item.image = image;
         var el = $(`
-          <div class="mosaic" toggle="1" style="width:${mosaicSize}px; height:${mosaicSize}px" >
+          <div class="mosaic" toggle="1" style="width:${mosaicSize}%; height:${mosaicHSize}px" >
             <div>
               <div class="label">
                   <span>${item.title}</span>
