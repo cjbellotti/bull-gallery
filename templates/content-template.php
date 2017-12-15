@@ -1,7 +1,17 @@
-<input type="checkbox" id="btn-category">
-<label for="btn-category"><img src="<?= plugins_url('/img/category.png', __FILE__) ?>" alt=""></label>
-<ul class="navbar">
-</ul>
+<div class="bg_navbar">
+  <input type="checkbox" id="bg_toggle">
+  <label for="bg_toggle"><img src="<?= plugins_url('/img/category.png', __FILE__) ?>" alt=""></label>
+  <div class="bg_navbar__container">
+    <div class="bg_navbar__section">
+      <ul class="bg_category_items">
+      </ul>
+    </div>
+    <div class="bg_navbar__section">
+      <ul class="bg_type_items">
+      </ul>
+    </div>
+  </div>
+</div>
 <div class="gallery">
 
 </div>

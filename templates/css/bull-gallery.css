@@ -100,17 +100,60 @@
   background: white;
 }
 
-.bull-gallery .navbar {
-  list-style: none;
-  margin : 10px;
+/* Navbar doble */
+
+.bull-gallery .bg_navbar {
+  width : 100%;
+  height : 30px;
+  margin-bottom: 8px;
 }
 
-.bull-gallery .navbar > li {
-  color : black;
+.bull-gallery .bg_navbar input[type="checkbox"] {
+  display : none;
+}
+
+.bull-gallery .bg_navbar label[for="bg_toggle"] {
+  display : none;
+  width : 30px;
+  height : 30px;
+}
+
+.bull-gallery .bg_navbar .bg_navbar__container {
+  width : 100%;
+}
+
+.bull-gallery .bg_navbar .bg_navbar__section {
+  width : 49.6%;
   display : inline-block;
-  margin-left: 10px;
+}
+
+.bull-gallery .bg_navbar .bg_navbar__section:nth-of-type(1) {
+  text-align: left;
+}
+
+.bull-gallery .bg_navbar .bg_navbar__section:nth-of-type(2) {
+  text-align: right;
+}
+
+.bull-gallery .bg_navbar .bg_navbar__section ul {
+  list-style: none;
+  font-size : 14px;
+}
+
+.bull-gallery .bg_navbar .bg_navbar__section li {
+  display : inline-block;
+  line-height: 30px;
+  height : 30px;
+  margin : 0 5px 0 5px;
+  box-sizing: border-box;
   cursor : pointer;
 }
+
+.bull-gallery .bg_navbar .bg_navbar__section li:hover {
+
+}
+
+/* Fin Navbar doble */
 
 /*.bull-gallery .navbar > li[active=""] {
   border-bottom: 3px solid rgb(30, 166, 133);
@@ -253,4 +296,47 @@
     left: 0px;
   }
 
+  /* Responsive Navbar Doble */
+  .bull-gallery .bg_navbar {
+    position : relative;
+  }
+
+  .bull-gallery .bg_navbar input#bg_toggle:checked ~ .bg_navbar__container {
+    left : 0px;
+    margin-left: 25%;
+  }
+
+  .bull-gallery .bg_navbar label[for="bg_toggle"] {
+    display : block;
+    margin : 0 auto;
+  }
+
+  .bull-gallery .bg_navbar .bg_navbar__container {
+    position: absolute;
+    text-align: center;
+    width : 50%;
+    background-color: rgba(0,0,0,0.7);
+    color : white;
+    z-index: 100;
+    left : -1024px;
+    margin : 0 auto;
+    transition: 0.4s all;
+  }
+
+  .bull-gallery .bg_navbar .bg_navbar__section:nth-of-type(1) {
+    text-align: center;
+  }
+
+  .bull-gallery .bg_navbar .bg_navbar__section:nth-of-type(2) {
+    text-align: center;
+    border-top: 2px solid white;
+  }
+  .bull-gallery .bg_navbar .bg_navbar__section {
+    display : block;
+    width : 100%;
+  }
+  .bull-gallery .bg_navbar .bg_navbar__section li {
+    display : block;
+  }
+  /* Fin Responsive Navbar Doble */
 }

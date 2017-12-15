@@ -13,15 +13,22 @@ var mosaicHSize = 0;
 var columns = 0;
 var currentIndex = 0;
 
-function toggle(e) {
-  $('#btn-category').prop('checked', false);
-  $('.navbar > li').removeAttr('active')
-  var group = $(e.target).html();
-  if (group == 'TODOS') {
-    loadAll();
-  } else {
-    load(group);
-  }
+var currentGroup = 'TODOS';
+var currentType = 'TODOS';
+
+function toggleCategory(e) {
+  $('#bg_toggle').prop('checked', false);
+  $('.bg_category_items > li').removeAttr('active')
+  currentGroup = $(e.target).html();
+  load();
+  $(e.target).attr('active', '');
+}
+
+function toggleType(e) {
+  $('#bg_toggle').prop('checked', false);
+  $('.bg_type_items > li').removeAttr('active')
+  currentType = $(e.target).html();
+  load();
   $(e.target).attr('active', '');
 }
 
@@ -59,11 +66,11 @@ function loadContent() {
   $('.visualizacion').addClass('visualizacion-visible');
 }
 
-function getItems(group) {
-  if (group == '*')
-    return data;
-  else
-    return data.filter(item => item.categories.find(cat => cat == group));
+function getItems() {
+    return data.filter(item => {
+      return (item.categories.find(cat => cat == currentGroup) || currentGroup == 'TODOS') &&
+              (item.type == currentType || currentType == 'TODOS');
+    });
 }
 
 function getGroups() {
@@ -78,12 +85,22 @@ function getGroups() {
   return groups;
 }
 
+function getTypes() {
+  var types = [];
+  data.forEach(item => {
+    if (types.indexOf(item.type) < 0) {
+      types.push(item.type);
+    }
+  });
+  return types;
+}
 
-function load(group) {
+
+function load() {
   var els = $('.mosaic').toArray();
   var toggle = $('.mosaic').attr('toggle');
   var toggled = toggle == '2' ? '1' : '2';
-  galleryData = getItems(group);
+  galleryData = getItems();
   toggle = toggle == 1 ? 2 : 1;
   els.forEach((el, index) => {
     el = $(el);
@@ -106,7 +123,7 @@ function loadAll() {
   var els = $('.mosaic').toArray();
   var toggle = $('.mosaic').attr('toggle');
   toggle = (toggle == '1') ? '2' : '1';
-  galleryData = getItems('*');
+  galleryData = getItems('TODOS');
   galleryData.forEach((item, index) => {
     var el = $(els[index]);
     el.find(`> div:nth-of-type(${toggle}) > img`).attr('src', item.image);
@@ -179,18 +196,28 @@ function bg_initialize() {
     $('.mosaic').css('height', mosaicHSize +'px');
   });
 
-  $('.navbar').append($(`
-      <li active>TODOS<li>
+  $('.bg_category_items').append($(`
+      <li active>TODOS</li>
     `));
 
   getGroups().forEach(group => {
-    $('.navbar').append($(`
-        <li>${group}<li>
+    $('.bg_category_items').append($(`
+        <li>${group}</li>
+      `));
+  });
+
+  $('.bg_type_items').append($(`
+      <li active>TODOS</li>
+    `));
+
+  getTypes().forEach(type => {
+    $('.bg_type_items').append($(`
+        <li>${type}</li>
       `));
   });
 
   var getImageRegExp = /src="(.*.[jpg|png|jpeg]{1})"/g;
-  galleryData = getItems('*');
+  galleryData = getItems('TODOS');
   galleryData.forEach((item, index) => {
     normalizeThumbnail(item)
       .then((image) => {
@@ -217,7 +244,8 @@ function bg_initialize() {
         $('.gallery').append(el);
       });
   });
-  $('.navbar > li').click(toggle);
+  $('.bg_category_items > li').click(toggleCategory);
+  $('.bg_type_items > li').click(toggleType);
   $('.label').click(visualizar);
   $('#btn-close-visualizacion').click((e) => {
     e.preventDefault();

@@ -6,10 +6,23 @@
     border-bottom: 3px solid <?=$args["filter-selected-color"]?>;
   }
 
+  .bull-gallery .bg_navbar .bg_navbar__section li {
+    color : <?=$args["filter-text-color"]?>;
+  }
+
+  .bull-gallery .bg_navbar .bg_navbar__section li[active=""] {
+    border-bottom: 3px solid <?=$args["filter-selected-color"]?>;
+  }
+
   @media (max-width: 768px) {
     .bull-gallery .navbar > li {
       color : white;
     }
+
+    .bull-gallery .bg_navbar .bg_navbar__section li {
+      color : white;
+    }
+
   }
 </style>
 <script>
