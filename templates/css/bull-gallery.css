@@ -185,15 +185,23 @@
   background-size: 50px 50px;
   background-position: center;
   position : relative;
-  width: 66%;
+  width: 90%;
   height: 80vh;
   box-sizing: border-box;
 }
 
-.bull-gallery .visualizacion .bg_content > img {
+.bull-gallery .visualizacion .bg_content > .bg-content-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.bull-gallery .visualizacion .bg_content > .bg-content-img > img {
   width : 100%;
   object-fit: contain;
 }
+
 .bull-gallery .visualizacion .bg_content iframe {
   position : absolute;
   width : 100%;
@@ -213,7 +221,20 @@
   cursor: pointer;
   transition: 0.2s all;
   border : 0;
-  margin : 10%;
+  z-index: 10001;
+  /* margin : 10%; */
+}
+
+.bull-gallery .btn-navigate-left {
+  position: absolute;
+  top : 38vh;
+  left : 0px;
+}
+
+.bull-gallery .btn-navigate-right {
+  position: absolute;
+  top : 38vh;
+  right : 0px;
 }
 
 .bull-gallery .btn-navigate:hover {
@@ -337,6 +358,10 @@
   }
   .bull-gallery .bg_navbar .bg_navbar__section li {
     display : block;
+  }
+
+  .bull-gallery .visualizacion .bg_content {
+    width : 100%;
   }
   /* Fin Responsive Navbar Doble */
 }

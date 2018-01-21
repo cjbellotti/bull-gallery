@@ -42,6 +42,7 @@
     if (!array_key_exists("filter-selected-color", $args)) {
       $args['filter-selected-color'] = "rgb(30, 166, 133)";
     }
+
     ob_start();
     include(dirname(__FILE__) . '/templates/content-main.php');
     return ob_get_clean();

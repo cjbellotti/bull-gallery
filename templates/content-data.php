@@ -14,6 +14,7 @@
   foreach($posts as $post) {
     if (get_post_format($post->ID) == 'image' || get_post_format($post->ID) == 'video') {
       $item = array(
+        'id' => $post->ID,
         'title' => $post->post_title,
         'image' => wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full')[0],
         'categories' => array_map('map_categories_array', wp_get_post_categories($post->ID)),
